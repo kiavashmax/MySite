@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KIavashmax — Programmer & Artist</title>
+
+<style>
+/* ── Fonts ─────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Main';
+  src: url('main.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Main';
+  src: url('main-bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'MainFA';
+  src: url('main-fa.ttf') format('truetype');
+  font-weight: 400 900;
+  font-display: swap;
+}
+
+/* ── Palette & Base ───────────────────────────────────────── */
+:root {
+  --bg: #0a0a0f;
+  --text: #e2ddd0;
+  --gold: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.4);
+  --muted: #8a857a;
+  --border: #22222d;
+  --card-bg: rgba(18, 18, 26, 0.8);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  /* ستاره‌های پس‌زمینه */
+  background-image: 
+    radial-gradient(1px 1px at 10% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 80% 15%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 65% 45%, #fff, transparent),
+    radial-gradient(2px 2px at 90% 80%, #fff, transparent);
+  background-size: 200px 200px;
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Main', 'MainFA', Georgia, serif;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* افکت شناور شدن آرام برای المان‌ها */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* درخشش نئونی */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px var(--gold-glow); }
+  50% { box-shadow: 0 0 20px var(--gold-glow), 0 0 10px var(--gold-glow) inset; }
+  100% { box-shadow: 0 0 5px var(--gold-glow); }
+}
+
+html[dir="rtl"] body { font-family: 'MainFA', 'Main', Tahoma, serif; }
+
+/* Language Logic */
+body:not(.fa) .lang-fa { display: none !important; }
+body.fa       .lang-en { display: none !important; }
+
+/* ── Layout ───────────────────────────────────────────────── */
+.container {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Navigation ───────────────────────────────────────────── */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  margin-bottom: 60px;
+  position: sticky;
+  top: 20px;
+  z-index: 100;
+}
+.brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px var(--gold-glow);
+}
+#langBtn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 6px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+#langBtn:hover {
+  background: var(--gold);
+  color: var(--bg);
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+
+/* ── Typography ───────────────────────────────────────────── */
+h1 {
+  font-size: 3.5rem;
+  margin: 0 0 10px;
+  letter-spacing: 1px;
+  /* متن گرادیانتی */
+  background: linear-gradient(90deg, #fff, var(--gold), #fff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 3s linear infinite;
+}
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin: 60px 0 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+html[dir="rtl"] h2::after {
+  background: linear-gradient(-90deg, var(--gold), transparent);
+}
+
+p { margin: 0 0 20px; font-size: 1.05rem; }
+a { color: var(--gold); text-decoration: none; transition: color 0.3s; }
+a:hover { color: #fff; text-shadow: 0 0 8px var(--gold-glow); }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  margin-bottom: 70px;
+}
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  object-fit: cover;
+  margin-bottom: 20px;
+  background: #1a1a24;
+  /* انیمیشن شناور و درخشش */
+  animation: float 4s ease-in-out infinite, glow 3s infinite alternate;
+}
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--muted);
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+/* ── Quote ────────────────────────────────────────────────── */
+blockquote {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin: 40px auto;
+  padding: 20px 30px;
+  font-style: italic;
+  color: var(--text);
+  background: var(--card-bg);
+  max-width: 600px;
+  position: relative;
+  transition: all 0.3s;
+}
+blockquote:hover {
+  border-color: var(--gold);
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* ── Grids & Cards ────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 25px;
+  background: var(--card-bg);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+/* افکت هاور جادویی */
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 10px 25px var(--gold-glow);
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: skewX(-20deg);
+  transition: 0.5s;
+}
+.card:hover::before { left: 150%; }
+
+.card h3 { color: var(--gold); margin: 0 0 5px 0; font-size: 1.2rem; }
+.card .ver { font-size: 0.85rem; color: var(--muted); margin-bottom: 15px; font-family: monospace; }
+
+/* ── Table ────────────────────────────────────────────────── */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  margin: 20px 0;
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 500px; }
+th, td { padding: 15px; text-align: center; border-bottom: 1px solid var(--border); }
+th { color: var(--gold); font-weight: bold; background: rgba(212, 175, 55, 0.05); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── Vocab Image ──────────────────────────────────────────── */
+.vocab-container {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+  background: var(--card-bg);
+  text-align: center;
+  transition: all 0.3s;
+}
+.vocab-container:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+.vocab-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+.vocab-desc { font-size: 0.9rem; color: var(--muted); margin-top: 15px; }
+
+/* ── Footer ───────────────────────────────────────────────── */
+footer {
+  margin-top: 80px;
+  padding: 30px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ── Mobile ───────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  h1 { font-size: 2.5rem; }
+  .container { padding: 20px 15px; }
+  nav { padding: 10px 15px; top: 10px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <nav>
+    <div class="brand">✦ KIavashmax ✦</div>
+    <button id="langBtn">فارسی</button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <!-- عکس رو با اسم avatar.png کنار فایل بذار -->
+    <img class="avatar" src="avatar.png" alt="KIavashmax" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'50\' fill=\'%23111\'/><text x=\'50\' y=\'55\' font-size=\'40\' text-anchor=\'middle\' fill=\'%23d4af37\' font-family=\'serif\'>K</text></svg>'">
+    
+    <h1>KIavashmax</h1>
+    
+    <div class="hero-subtitle">
+      <span class="lang-en">Programmer · AI Engineer · Artist · Musician</span>
+      <span class="lang-fa">برنامه‌نویس · مهندس هوش مصنوعی · هنرمند · موزیسین</span>
+    </div>
+
+    <blockquote>
+      <span class="lang-en">"If you want to succeed, just do it. The result doesn't matter. Fail more than you did yesterday."</span>
+      <span class="lang-fa">«اگه می‌خوای موفق بشی، فقط انجامش بده. نتیجه مهم نیست. بیشتر از دیروزت شکست بخور.»</span>
+    </blockquote>
+  </section>
+
+  <!-- About -->
+  <section>
+    <h2><span class="lang-en">About Me</span><span class="lang-fa">درباره من</span></h2>
+    <p class="lang-en">
+      I'm KIavashmax. I write code, work on AI architectures, make games, play guitar, rap, and do 3D design. Right now, my main focus is developing <strong>SMC-Net</strong> and the NeuroCache models. I'm also part of the <strong>MAKA</strong> team, where I run our sub-team <strong>MaxLendGames</strong>. We're currently rebuilding the old survival game OXIDE under the new name <strong>ORKIDE</strong>.
+    </p>
+    <p class="lang-fa">
+      من کیاوش هستم. کد می‌نویسم، روی معماری‌های هوش مصنوعی کار می‌کنم، بازی می‌سازم، گیتار می‌زنم، رپ می‌گم و طراحی سه‌بعدی انجام می‌دم. تمرکز اصلیم الان روی توسعه <strong>SMC-Net</strong> و مدل‌های NeuroCache هست. همچنین عضو تیم <strong>MAKA</strong> هستم و زیرمجموعه‌مون به اسم <strong>MaxLendGames</strong> رو مدیریت می‌کنم. ما الان داریم بازی سروایول قدیمی OXIDE رو با اسم جدید <strong>ORKIDE</strong> بازسازی می‌کنیم.
+    </p>
+  </section>
+
+  <!-- AI Projects -->
+  <section>
+    <h2><span class="lang-en">AI & Architecture</span><span class="lang-fa">هوش مصنوعی و معماری‌ها</span></h2>
+    
+    <p class="lang-en"><strong>SMC-Net (Self-Modulating Cache Network)</strong> is the core architecture I'm building. The NeuroCache models are different versions of this architecture, tested for different trade-offs between speed, memory, and accuracy.</p>
+    <p class="lang-fa"><strong>SMC-Net</strong> معماری اصلی هسته‌ایه که دارم روش کار می‌کنم. مدل‌های NeuroCache نسخه‌های مختلفی از این معماری هستن که برای تعادل بین سرعت، حافظه و دقت تست می‌شن.</p>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th><span class="lang-en">Version</span><span class="lang-fa">نسخه</span></th>
+            <th><span class="lang-en">Accuracy</span><span class="lang-fa">دقت</span></th>
+            <th><span class="lang-en">Latency</span><span class="lang-fa">تأخیر</span></th>
+            <th><span class="lang-en">Speed (Pred/s)</span><span class="lang-fa">سرعت (پیش‌بینی/ث)</span></th>
+            <th><span class="lang-en">Memory</span><span class="lang-fa">حافظه</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>v0.1</td><td>5.26%</td><td>0.088 ms</td><td>17,130</td><td>~42 KB</td></tr>
+          <tr><td>v0.2</td><td>52.63%</td><td>1.60 ms</td><td>734</td><td>~4 KB</td></tr>
+          <tr><td>v0.3</td><td>84.21%</td><td>1.71 ms</td><td>1,600</td><td>~3.8 KB</td></tr>
+          <tr><td>v0.4</td><td colspan="4" style="color: var(--muted)"><span class="lang-en">Benchmarks pending</span><span class="lang-fa">در انتظار بنچمارک</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>MaxAI</h3>
+        <div class="ver">MaxCore (v1.0 → v3.0)</div>
+        <p class="lang-en">Dense architecture.</p>
+        <p class="lang-fa">معماری چگال (Dense).</p>
+      </div>
+      <div class="card">
+        <h3>KaJeAI</h3>
+        <div class="ver">KaJe-MoE (v1.0 → v3.0)</div>
+        <p class="lang-en">Mixture-of-Experts architecture.</p>
+        <p class="lang-fa">معماری Mixture-of-Experts.</p>
+      </div>
+      <div class="card">
+        <h3>PMaxAI</h3>
+        <div class="ver">PMax-Vision (v1.0)</div>
+        <p class="lang-en">Image generation model.</p>
+        <p class="lang-fa">مدل تولید تصویر.</p>
+      </div>
+      <div class="card">
+        <h3>VMaxAI</h3>
+        <div class="ver">VMax-Motion (v0.2)</div>
+        <p class="lang-en">Video generation model.</p>
+        <p class="lang-fa">مدل تولید ویدیو.</p>
+      </div>
+      <div class="card">
+        <h3>SMaxAI</h3>
+        <div class="ver">SMax-Audio (v1.0 → v2.0)</div>
+        <p class="lang-en">Music generation model.</p>
+        <p class="lang-fa">مدل تولید موسیقی.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games & Teams -->
+  <section>
+    <h2><span class="lang-en">Games & Teams</span><span class="lang-fa">بازی‌ها و تیم‌ها</span></h2>
+    
+    <div class="grid">
+      <div class="card">
+        <h3>ORKIDE</h3>
+        <div class="ver">Survival Game</div>
+        <p class="lang-en">A complete remake of the old game OXIDE, rebuilt from the ground up.</p>
+        <p class="lang-fa">بازسازی کامل بازی قدیمی OXIDE از صفر.</p>
+      </div>
+
+      <div class="card">
+        <h3>MAKA & MaxLendGames</h3>
+        <div class="ver">Team & Sub-team</div>
+        <p class="lang-en"><strong>MAKA</strong> is our main team. <strong>MaxLendGames</strong> is the sub-team focused on game development under MAKA. Members: Mahdi, AmirReza, KIavashmax (me), Ashkan.</p>
+        <p class="lang-fa"><strong>MAKA</strong> تیم اصلی ماست. <strong>MaxLendGames</strong> زیرمجموعه‌ی ما برای توسعه بازی هست. اعضا: مهدی، امیررضا، کیاوش (من)، اشکان.</p>
+      </div>
+
+      <div class="card">
+        <h3>Telegram Bots</h3>
+        <div class="ver">MaxBotSelfBot · BaleMaxBot</div>
+        <p class="lang-en">Self-bot tools. (The Bale version is archived).</p>
+        <p class="lang-fa">ابزارهای سلف‌بات. (نسخه بله آرشیو شده).</p>
+      </div>
+
+      <div class="card">
+        <h3>MaxCoin</h3>
+        <div class="ver">Private Crypto</div>
+        <p class="lang-en">A private cryptocurrency project. Not public yet.</p>
+        <p class="lang-fa">پروژه ارز دیجیتال خصوصی. هنوز پابلیک نشده.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vocab -->
+  <section>
+    <h2><span class="lang-en">English Test</span><span class="lang-fa">تست انگلیسی</span></h2>
+    <div class="vocab-container">
+      <img src="vocab.png" alt="Vocabulary Test Certificate" onerror="this.style.display='none'">
+      <div class="vocab-desc">
+        <span class="lang-en">Result of my English vocabulary test from ARealMe (10,500 words).</span>
+        <span class="lang-fa">نتیجه تست دایره لغات انگلیسی من از سایت ARealMe (۱۰,۵۰۰ کلمه).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Footer -->
+  <section>
+    <h2><span class="lang-en">Contact</span><span class="lang-fa">ارتباط</span></h2>
+    <p>
+      <span class="lang-en">You can find me on:</span>
+      <span class="lang-fa">می‌تونی من رو اینجا پیدا کنی:</span>
+      <br><br>
+      <a href="https://t.me/KIavashmax" target="_blank">Telegram: @KIavashmax</a><br>
+      <a href="https://github.com/KIavashmax" target="_blank">GitHub: KIavashmax</a>
+    </p>
+  </section>
+
+  <footer>
+    <span class="lang-en">&copy; 2026 KIavashmax. Copying with attribution is allowed.</span>
+    <span class="lang-fa">&copy; ۲۰۲۶ کیاوش. کپی با ذکر منبع مجاز است.</span>
+  </footer>
+
+</div>
+
+<script>
+  const html = document.documentElement;
+  const btn = document.getElementById('langBtn');
+
+  function setLang(lang) {
+    document.body.classList.toggle('fa', lang === 'fa');
+    html.setAttribute('lang', lang === 'fa' ? 'fa' : 'en');
+    html.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
+    btn.textContent = lang === 'fa' ? 'English' : 'فارسی';
+    localStorage.setItem('lang', lang);
+  }
+
+  const savedLang = localStorage.getItem('lang') || 'en';
+  setLang(savedLang);
+
+  btn.addEventListener('click', () => {
+    const current = document.body.classList.contains('fa') ? 'fa' : 'en';
+    setLang(current === 'fa' ? 'en' : 'fa');
+  });
+</script>
+</body>
+</html>
